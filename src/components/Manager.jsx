@@ -4,6 +4,7 @@ const Manager = () => {
     const [form, setForm] = useState({ site: '', username: '', password: '' })
     const [passwordArray, setPasswordArray] = useState([])
     const ref = useRef();
+    const ref1 = useRef();
 
     useEffect(() => {
         let pass = localStorage.getItem('passwords')
@@ -13,14 +14,16 @@ const Manager = () => {
     }, [])
 
     const showPassword = () => {
-        confirm("Show Password")
+
         if (ref.current.src.includes("/eye.png")) {
             ref.current.src = "/hidden.png",
-                ref.current.className = 'w-4'
+            ref.current.className = 'w-4'
+            ref1.current.type = 'text'
         }
         else {
             ref.current.src = "/eye.png",
-                ref.current.className = 'w-4 hue-rotate-90'
+            ref.current.className = 'w-4 hue-rotate-90'
+            ref1.current.type = 'password'
         }
     }
 
@@ -35,11 +38,9 @@ const Manager = () => {
     }
 
     return (
-        <>
-            <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#1f8524_100%)]"></div>
-            <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+        <><div class="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-            <div className="myContainer mt-10 w-[60vw] flex flex-col mx-auto">
+            <div className="myContainer mt-10 w-[60vw]  flex flex-col mx-auto">
 
                 <div className="logo flex flex-col justify-center items-center">
                     <div className="passmate text-2xl font-bold">
@@ -57,7 +58,7 @@ const Manager = () => {
                     <div className="line2 flex justify-between items-center w-full">
                         <input name='username' value={form.username} onChange={handleChange} type="text" className='text-xs py-1 px-2 rounded-full border border-green-500 w-[78%]' placeholder='Enter username' />
                         <div className="passWithIcon relative">
-                            <input name='password' value={form.password} onChange={handleChange} type="text" className='text-xs py-1 px-2 rounded-full border border-green-500' placeholder='Enter password' />
+                            <input ref={ref1} name='password' value={form.password} onChange={handleChange} type="password" className='text-xs py-1 px-2 rounded-full border border-green-500' placeholder='Enter password' />
                             <span className='absolute right-2 top-[0.3rem]'>
                                 <img ref={ref} src="/eye.png" alt="eye" onClick={showPassword} className='w-4 hue-rotate-90	 ' />
                             </span>
@@ -67,7 +68,7 @@ const Manager = () => {
                 <div className="addButton flex justify-center items-center mt-4 ">
                     <button className='text-xs py-1 px-4 rounded-full bg-green-500 hover:bg-[#25b95b] text-black flex items-center gap-3' onClick={savePassword}>
                         <lord-icon src="https://cdn.lordicon.com/ftndcppj.json" trigger="morph" style={{ width: "25px", height: "25px" }}></lord-icon>
-                        <span>Add Password</span>
+                        <span className='text-white font-semibold'>Add Password</span>
                     </button>
                 </div>
 
