@@ -110,14 +110,14 @@ const Manager = () => {
                     <div className="subtitle text-sm">Your Trusted Password Keeper</div>
                 </div>
 
-                <div className="labels flex flex-col justify-center items-center w-full mt-4 gap-5">
+                <div className="labels flex flex-col justify-center items-center w-full mt-4 gap-3 sm:gap-5">
                     <div className="line1 flex justify-center items-center w-full">
                         <input name='site' value={form.site} onChange={handleChange} type="text" className='text-xs py-1 px-2 rounded-full border border-green-500 w-full' placeholder='Enter website URL' />
                     </div>
-                    <div className="line2 flex justify-between items-center w-full gap-2">
-                        <input name='username' value={form.username} onChange={handleChange} type="text" className='text-xs py-1 px-2 rounded-full border border-green-500 w-[78%]' placeholder='Enter username' />
-                        <div className="passWithIcon relative">
-                            <input ref={ref1} name='password' value={form.password} onChange={handleChange} type="password" className='text-xs py-1 px-2 rounded-full border border-green-500' placeholder='Enter password' />
+                    <div className="line2 flex flex-col sm:flex-row justify-between items-center w-full gap-3 sm:gap-2">
+                        <input name='username' value={form.username} onChange={handleChange} type="text" className='text-xs py-1 px-2 rounded-full border border-green-500 w-full sm:w-[78%]' placeholder='Enter username' />
+                        <div className="passWithIcon relative w-full sm:w-auto">
+                            <input ref={ref1} name='password' value={form.password} onChange={handleChange} type="password" className='text-xs py-1 px-2 w-full rounded-full border border-green-500' placeholder='Enter password' />
                             <span className='absolute right-2 top-[0.3rem]'>
                                 <img ref={ref} src="/eye.png" alt="eye" onClick={showPassword} className='w-4 hue-rotate-90	 ' />
                             </span>
@@ -125,7 +125,7 @@ const Manager = () => {
                     </div>
                 </div>
                 <div className="addButton flex justify-center items-center mt-4 ">
-                    <button className='text-xs py-1 px-4 rounded-full bg-[#229627] hover:bg-[#1b7520] text-black flex items-center gap-3' onClick={savePassword}>
+                    <button className='text-xs sm:py-1 py-[2px] sm:px-4 px-2 rounded-full bg-[#229627] hover:bg-[#1b7520] text-black flex items-center gap-3' onClick={savePassword}>
                         <lord-icon src="https://cdn.lordicon.com/ftndcppj.json" trigger="morph" style={{ width: "25px", height: "25px" }}></lord-icon>
                         <span className='text-white font-semibold'>Add Password</span>
                     </button>
@@ -134,38 +134,38 @@ const Manager = () => {
                 <div className="yourPasswords text-green-800 font-bold text-lg">Your Passwords :-</div>
                 {passwordArray.length === 0 ? <div className="noPassword py-3 pl-1 text-xs">No Passwords Found</div> :
                     <div className='w-full'>
-                    <table className="table-auto  mt-3 rounded-md overflow-hidden">
-                        <thead className='bg-green-700 text-white'>
+                    <table className="table-fixed w-full mt-3 rounded-md overflow-hidden">
+                        <thead className='bg-green-700 text-white  '>
                             <tr className='cursor-default'>
-                                <th className='py-1'>Site</th>
-                                <th className='py-1'>Username</th>
-                                <th className='py-1'>Password</th>
-                                <th className='py-1'>Actions</th>
+                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Site</th>
+                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Username</th>
+                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Password</th>
+                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Actions</th>
                             </tr>
                         </thead>
-                        <tbody className='bg-[#b4facc4f]  '>
+                        <tbody className='bg-[#b4facc4f] '>
                             {passwordArray.map((item, index) => {
-                                return <tr key={index} className='text-sm'>
+                                return <tr key={index} className='text-xs md:text-sm'>
                                     <td className='py-2 text-center '>
-                                        <div className="flex justify-center items-center gap-2">
-                                            <a href={item.site} target='_blank' className='overflow-hidden' >{item.site}</a>
+                                        <div className="flex justify-center items-center gap-1 sm:gap-2">
+                                            <a href={item.site} target='_blank' className='overflow-x-auto w-16 sm:w-32 no-scrollbar' >{item.site}</a>
                                             <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.site) }}> </div>
                                         </div>
                                     </td>
                                     <td className='py-2 text-center '>
-                                        <div className="flex justify-center items-center gap-2">
-                                            <span className='cursor-default'>{item.username}</span>
+                                        <div className="flex justify-center items-center gap-1 sm:gap-2">
+                                            <span className='cursor-default overflow-x-auto no-scrollbar w-16 sm:w-32'>{item.username}</span>
                                             <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.username) }}> </div>
                                         </div>
                                     </td>
-                                    <td className='py-2 text-center '>
-                                        <div className="flex justify-center items-center gap-2">
-                                            <span className='blur-[2px] cursor-default'>{item.password}</span>
+                                    <td className='py-2 text-center'>
+                                        <div className="flex justify-center items-center gap-1 sm:gap-2">
+                                            <span className='blur-[2px] cursor-default overflow-x-auto no-scrollbar w-16 sm:w-32'>{item.password}</span>
                                             <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.password) }}> </div>
                                         </div>
                                     </td>
-                                    <td className='py-2 text-center '>
-                                        <div className="flex justify-center items-center gap-2">
+                                    <td className='py-2 text-center'>
+                                        <div className="flex justify-center items-center gap-2 ">
                                             <span className="editGif bg-[url('/edit.png')] bg-cover w-5 h-5 hover:bg-[url('/edit.gif')] cursor-pointer" onClick={() => { editPassword(item.id) }}></span>
                                             <span className="deleteGif bg-[url('/delete.png')] bg-cover w-5 h-5 hover:bg-[url('/delete.gif')] cursor-pointer" onClick={() => { deletePassword(item.id) }} ></span>
                                         </div>
