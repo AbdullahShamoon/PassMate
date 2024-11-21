@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer className=' w-full py-2 bg-[#0e4411] mt-5 ' >
+        <footer className=' w-full py-2 bg-[#0e4411]' >
             <div className="text-center">
                 <a className="flex items-center justify-center mb-3 text-2xl font-semibold text-gray-900">
                     <img src="https://www.svgrepo.com/show/474372/code.svg" className="h-12 mr-3 sm:h-9 " alt="Landwind Logo " />
@@ -20,7 +20,7 @@ const Footer = () => {
 
                 </span>
 
-                <div class="flex justify-center space-x-5 mt-2">
+                <div className="flex justify-center space-x-5 mt-2">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
                         <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" width={25} className="hover:contrast-200" />
                     </a>

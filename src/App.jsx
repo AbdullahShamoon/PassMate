@@ -10,7 +10,7 @@ function App() {
   return (
     <>
     <Navbar />
-    <Manager />
+    <div className="relative"> <Manager /> </div>
     <Footer />
     </>
   )

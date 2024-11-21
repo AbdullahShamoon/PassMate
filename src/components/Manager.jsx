@@ -1,4 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Manager = () => {
     const [form, setForm] = useState({ site: '', username: '', password: '' })
@@ -17,20 +21,69 @@ const Manager = () => {
 
         if (ref.current.src.includes("/eye.png")) {
             ref.current.src = "/hidden.png",
-            ref.current.className = 'w-4'
+                ref.current.className = 'w-4'
             ref1.current.type = 'text'
         }
         else {
             ref.current.src = "/eye.png",
-            ref.current.className = 'w-4 hue-rotate-90'
+                ref.current.className = 'w-4 hue-rotate-90'
             ref1.current.type = 'password'
         }
     }
 
+    const copyText = (text) => {
+        toast('Copied to clipboard', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        navigator.clipboard.writeText(text)
+    }
+
     const savePassword = () => {
-        setPasswordArray([...passwordArray, form])
-        localStorage.setItem('passwords', JSON.stringify([...passwordArray, form]))
-        console.log([...passwordArray, form])
+        toast.success('Added Successfully', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
+        localStorage.setItem('passwords', JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
+        setForm({ site: '', username: '', password: '' })
+    }
+
+    const deletePassword = (id) => {
+        console.log("Deleting password with id:", id);
+        let c = confirm("Are you sure you want to delete this password?")
+        if (c) {
+            toast.error('Deleted Successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
+            setPasswordArray(passwordArray.filter((item) => item.id !== id))
+            localStorage.setItem('passwords', JSON.stringify(passwordArray.filter((item) => item.id !== id)))
+        }
+    }
+
+    const editPassword = (id) => {
+        setForm(passwordArray.find((item) => item.id === id))
+        setPasswordArray(passwordArray.filter((item) => item.id !== id))
+
     }
 
     const handleChange = (e) => {
@@ -38,9 +91,15 @@ const Manager = () => {
     }
 
     return (
-        <><div class="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <>
+            <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#4ade80_100%)]"></div>
+            <div className="absolute inset-0 -z-10 h-full w-full  bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
 
-            <div className="myContainer mt-10 w-[60vw]  flex flex-col mx-auto">
+
+            <ToastContainer />
+
+
+            <div className="myContainer mt-10 w-[60vw] flex flex-col mx-auto pb-4 min-h-[80vh]">
 
                 <div className="logo flex flex-col justify-center items-center">
                     <div className="passmate text-2xl font-bold">
@@ -74,20 +133,42 @@ const Manager = () => {
 
                 <div className="yourPasswords text-green-800 font-bold text-lg">Your Passwords :-</div>
                 {passwordArray.length === 0 ? <div className="noPassword py-3 pl-1 text-xs">No Passwords Found</div> :
-                    <table className="table-auto mt-3 rounded-md overflow-hidden ">
+                    <table className="table-auto mt-3 rounded-md overflow-hidden">
                         <thead className='bg-green-700 text-white'>
                             <tr>
                                 <th className='py-1'>Site</th>
                                 <th className='py-1'>Username</th>
                                 <th className='py-1'>Password</th>
+                                <th className='py-1'>Actions</th>
                             </tr>
                         </thead>
                         <tbody className='bg-[#b4facc4f]'>
                             {passwordArray.map((item, index) => {
-                                return <tr key={index}>
-                                    <td className='py-1 text-center w-32'><a href={item.site}  target='_blank'>{item.site}</a></td>
-                                    <td className='py-1 text-center w-32'>{item.username}</td>
-                                    <td className='py-1 text-center w-32'>{item.password}</td>
+                                return <tr key={index} className='text-sm'>
+                                    <td className='py-2 text-center w-32'>
+                                        <div className="flex justify-center items-center gap-4">
+                                            <a href={item.site} target='_blank'>{item.site}</a>
+                                            <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.site) }}> </div>
+                                        </div>
+                                    </td>
+                                    <td className='py-2 text-center w-32'>
+                                        <div className="flex justify-center items-center gap-4">
+                                            <span>{item.username}</span>
+                                            <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.username) }}> </div>
+                                        </div>
+                                    </td>
+                                    <td className='py-2 text-center w-32'>
+                                        <div className="flex justify-center items-center gap-4">
+                                            <span>{item.password}</span>
+                                            <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.password) }}> </div>
+                                        </div>
+                                    </td>
+                                    <td className='py-2 text-center w-32'>
+                                        <div className="flex justify-center items-center gap-4">
+                                            <span className="editGif bg-[url('/edit.png')] bg-cover w-5 h-5 hover:bg-[url('/edit.gif')] cursor-pointer" onClick={() => { editPassword(item.id) }}></span>
+                                            <span className="deleteGif bg-[url('/delete.png')] bg-cover w-5 h-5 hover:bg-[url('/delete.gif')] cursor-pointer" onClick={() => { deletePassword(item.id) }} ></span>
+                                        </div>
+                                    </td>
                                 </tr>
                             })}
 
