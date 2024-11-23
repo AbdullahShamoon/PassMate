@@ -46,19 +46,34 @@ const Manager = () => {
     }
 
     const savePassword = () => {
-        toast.success('Added Successfully', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-        setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-        localStorage.setItem('passwords', JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
-        setForm({ site: '', username: '', password: '' })
+        if (form.site.length < 3 || form.username.length < 3 || form.password.length < 3) {
+            toast.error('Please fill at least 3 characters in all the fields', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return
+        }
+        else {
+            toast.success('Added Successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
+            localStorage.setItem('passwords', JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
+            setForm({ site: '', username: '', password: '' })
+        }
     }
 
     const deletePassword = (id) => {
@@ -134,49 +149,49 @@ const Manager = () => {
                 <div className="yourPasswords text-green-800 font-bold text-lg">Your Passwords :-</div>
                 {passwordArray.length === 0 ? <div className="noPassword py-3 pl-1 text-xs">No Passwords Found</div> :
                     <div className='w-full'>
-                    <table className="table-fixed w-full mt-3 rounded-md overflow-hidden">
-                        <thead className='bg-green-700 text-white  '>
-                            <tr className='cursor-default'>
-                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Site</th>
-                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Username</th>
-                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Password</th>
-                                <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className='bg-[#b4facc4f] '>
-                            {passwordArray.map((item, index) => {
-                                return <tr key={index} className='text-xs md:text-sm'>
-                                    <td className='py-2 text-center '>
-                                        <div className="flex justify-center items-center gap-1 sm:gap-2">
-                                            <a href={item.site} target='_blank' className='overflow-x-auto w-16 sm:w-32 no-scrollbar' >{item.site}</a>
-                                            <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.site) }}> </div>
-                                        </div>
-                                    </td>
-                                    <td className='py-2 text-center '>
-                                        <div className="flex justify-center items-center gap-1 sm:gap-2">
-                                            <span className='cursor-default overflow-x-auto no-scrollbar w-16 sm:w-32'>{item.username}</span>
-                                            <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.username) }}> </div>
-                                        </div>
-                                    </td>
-                                    <td className='py-2 text-center'>
-                                        <div className="flex justify-center items-center gap-1 sm:gap-2">
-                                            <span className='blur-[2px] cursor-default overflow-x-auto no-scrollbar w-16 sm:w-32'>{item.password}</span>
-                                            <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.password) }}> </div>
-                                        </div>
-                                    </td>
-                                    <td className='py-2 text-center'>
-                                        <div className="flex justify-center items-center gap-2 ">
-                                            <span className="editGif bg-[url('/edit.png')] bg-cover w-5 h-5 hover:bg-[url('/edit.gif')] cursor-pointer" onClick={() => { editPassword(item.id) }}></span>
-                                            <span className="deleteGif bg-[url('/delete.png')] bg-cover w-5 h-5 hover:bg-[url('/delete.gif')] cursor-pointer" onClick={() => { deletePassword(item.id) }} ></span>
-                                        </div>
-                                    </td>
+                        <table className="table-fixed w-full mt-3 rounded-md overflow-hidden">
+                            <thead className='bg-green-700 text-white  '>
+                                <tr className='cursor-default'>
+                                    <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Site</th>
+                                    <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Username</th>
+                                    <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Password</th>
+                                    <th className='py-1 text-xs font-semibold md:font-bold md:text-base '>Actions</th>
                                 </tr>
-                            })}
+                            </thead>
+                            <tbody className='bg-[#b4facc4f] '>
+                                {passwordArray.map((item, index) => {
+                                    return <tr key={index} className='text-xs md:text-sm'>
+                                        <td className='py-2 text-center '>
+                                            <div className="flex justify-center items-center gap-1 sm:gap-2">
+                                                <a href={item.site} target='_blank' className='overflow-x-auto w-16 sm:w-32 no-scrollbar' >{item.site}</a>
+                                                <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.site) }}> </div>
+                                            </div>
+                                        </td>
+                                        <td className='py-2 text-center '>
+                                            <div className="flex justify-center items-center gap-1 sm:gap-2">
+                                                <span className='cursor-default overflow-x-auto no-scrollbar w-16 sm:w-32'>{item.username}</span>
+                                                <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.username) }}> </div>
+                                            </div>
+                                        </td>
+                                        <td className='py-2 text-center'>
+                                            <div className="flex justify-center items-center gap-1 sm:gap-2">
+                                                <span className='blur-[2px] cursor-default overflow-x-auto no-scrollbar w-16 sm:w-32'>{item.password}</span>
+                                                <div className="copyGif bg-[url('/copy.png')] bg-cover w-4 h-4 hover:bg-[url('/copy.gif')] cursor-pointer" onClick={() => { copyText(item.password) }}> </div>
+                                            </div>
+                                        </td>
+                                        <td className='py-2 text-center'>
+                                            <div className="flex justify-center items-center gap-2 ">
+                                                <span className="editGif bg-[url('/edit.png')] bg-cover w-5 h-5 hover:bg-[url('/edit.gif')] cursor-pointer" onClick={() => { editPassword(item.id) }}></span>
+                                                <span className="deleteGif bg-[url('/delete.png')] bg-cover w-5 h-5 hover:bg-[url('/delete.gif')] cursor-pointer" onClick={() => { deletePassword(item.id) }} ></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                })}
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
                     </div>
-                    
+
                 }
             </div>
 

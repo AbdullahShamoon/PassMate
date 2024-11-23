@@ -8,7 +8,7 @@ function App() {
   return (
     <>
     <Navbar />
-    <div className=" relative w-screen"> <Manager /> </div>
+    <div className=" relative w-full"> <Manager /> </div>
     <Footer />
     </>
   )
