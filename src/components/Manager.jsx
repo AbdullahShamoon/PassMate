@@ -215,7 +215,6 @@ const Manager = () => {
             <div className="deleteAll fixed bottom-5 right-5 z-50 px-2 bg-[url('/deleteAllbg.png')] hover:bg-[url('/deleteAllbg.gif')]  text-white cursor-pointer flex justify-center items-center border border-red-950 rounded-full group" onClick={deleteAll}>
                 <span className="deleteAllButton bg-[url('/deleteAll.png')] bg-cover w-7 h-7 group-hover:bg-[url('/deleteAll.gif')]"></span>
                 <span className='ml-2 text-xs font-semibold hidden sm:block'>Delete All</span>
-                
             </div>
 
         </>
